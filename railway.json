@@ -1,4 +1,8 @@
 {
-  "build": "make build VERSION=$(VERSION)",
-  "start": "./bin/kasir-api"
+  "build": {
+    "cmd": "make build VERSION=$(VERSION)"
+  },
+  "start": {
+    "cmd": "./bin/kasir-api"
+  }
 }
