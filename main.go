@@ -8,6 +8,8 @@ import (
 	"strings"
 )
 
+var version = "dev"
+
 type Product struct {
 	ID    int    `json:"id"`
 	Nama  string `json:"name"`
@@ -150,7 +152,7 @@ func main() {
 	})
 
 	addr := ":8080"
-	log.Printf("Server running on %s\n", addr)
+	log.Printf("Server %s running on %s \n", addr, version)
 
 	if err := http.ListenAndServe(addr, nil); err != nil {
 		log.Fatal("Failed to start server: ", err)
