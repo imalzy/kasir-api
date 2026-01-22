@@ -1,6 +1,6 @@
 APP_NAME=kasir-api
 BUILD_DIR=bin
-VERSION ?=dev
+VERSION := $(shell git describe --tags --always)
 
 .PHONY: all build run run-build clean tidy tag
 
