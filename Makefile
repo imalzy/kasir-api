@@ -9,16 +9,16 @@ all: build
 build:
 	mkdir -p $(BUILD_DIR)
 	go build -ldflags="-s -w -X main.version=$(VERSION)" \
-		-o $(BUILD_DIR)/$(APP_NAME) .
+		-o $(BUILD_DIR)/$(APP_NAME) ./cmd/$(APP_NAME)
 
 run:
-	go run .
+	go run ./cmd/$(APP_NAME)
 
 run-build:
 	./$(BUILD_DIR)/$(APP_NAME)
 
 clean:
-	rm -rf $(APP_NAME)
+	rm -rf $(BUILD_DIR)/$(APP_NAME)
 
 tag:
 	git tag $(VERSION)
