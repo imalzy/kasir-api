@@ -8,9 +8,9 @@ all: build
 
 build:
 	mkdir -p $(BUILD_DIR)
-	# Ensure the path ./cmd/$(APP_NAME) actually exists
+	# This finds the main.go file regardless of the subfolder name under cmd/
 	go build -ldflags="-s -w -X main.version=$(VERSION)" \
-		-o $(BUILD_DIR)/$(APP_NAME) ./cmd/$(APP_NAME)
+		-o $(BUILD_DIR)/$(APP_NAME) ./cmd/$(APP_NAME)/*.go
 
 run:
 	go run ./cmd/$(APP_NAME)
