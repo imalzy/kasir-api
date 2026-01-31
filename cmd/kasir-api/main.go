@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"kasir-api/internal/produk"
 	"kasir-api/internal/server"
 	"kasir-api/utils"
@@ -15,7 +16,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Could not load config: %v", err)
 	}
-
+	fmt.Printf("DB URL : %s", cfg.DatabaseUrl)
 	db, err := utils.InitDb(cfg.DatabaseUrl)
 	if err != nil {
 		log.Fatalf("Failed connect into database")
