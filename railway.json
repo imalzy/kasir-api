@@ -2,7 +2,7 @@
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
     "builder": "NIXPACKS",
-    "buildCommand": "mkdir -p bin && go build -o bin/kasir-api ./cmd/kasir-api"
+    "buildCommand": "go build -o bin/kasir-api ./cmd/kasir-api"
   },
   "deploy": {
     "startCommand": "./bin/kasir-api"
