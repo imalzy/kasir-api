@@ -2,7 +2,6 @@ package utils
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"strings"
 
@@ -27,8 +26,6 @@ func LoadConfig() (*Config, error) {
 	viper.AutomaticEnv()
 	viper.BindEnv("DATABASE_URL")
 	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_", "-", "_"))
-
-	log.Println("OS ENV DATABASE_URL:", os.Getenv("DATABASE_URL"))
 
 	var cfg Config
 	if err := viper.Unmarshal(&cfg); err != nil {
