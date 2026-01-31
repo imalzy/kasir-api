@@ -16,7 +16,9 @@ func main() {
 	if err != nil {
 		log.Fatalf("Could not load config: %v", err)
 	}
-	fmt.Printf("DB URL : %s", cfg.DatabaseUrl)
+	fmt.Printf("VERSION URL : %v", cfg.Version)
+	fmt.Printf("PORT URL : %v", cfg.Port)
+
 	db, err := utils.InitDb(cfg.DatabaseUrl)
 	if err != nil {
 		log.Fatalf("Failed connect into database")
