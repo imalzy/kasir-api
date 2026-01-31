@@ -2,6 +2,7 @@ package utils
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"strings"
 
@@ -15,16 +16,19 @@ type Config struct {
 }
 
 func LoadConfig() (*Config, error) {
-	viper.AutomaticEnv()
-	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_", "-", "_"))
+	viper.SetDefault("PORT", "8080")
+	viper.SetDefault("VERSION", "1.0.0")
 
 	if _, err := os.Stat(".env"); err == nil {
 		viper.SetConfigFile(".env")
 		_ = viper.ReadInConfig()
 	}
 
-	viper.SetDefault("PORT", "8080")
-	viper.SetDefault("VERSION", "1.0.0")
+	viper.AutomaticEnv()
+	viper.BindEnv("DATABASE_URL")
+	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_", "-", "_"))
+
+	log.Println("OS ENV DATABASE_URL:", os.Getenv("DATABASE_URL"))
 
 	var cfg Config
 	if err := viper.Unmarshal(&cfg); err != nil {
