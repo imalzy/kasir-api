@@ -1,14 +1,22 @@
 package produk
 
 type Product struct {
-	ID    int    `json:"id"`
-	Nama  string `json:"nama"`
-	Harga int    `json:"harga"`
-	Stok  int    `json:"stok"`
+	ID         string `json:"id"`
+	Name       string `json:"name"`
+	Price      int    `json:"price"`
+	Stock      int    `json:"stock"`
+	CategoryID string `json:"category_id"`
 }
 
-var ProdukList = []Product{
-	{ID: 1, Nama: "Indomie Godog", Harga: 3500, Stok: 10},
-	{ID: 2, Nama: "Vit 1000ml", Harga: 3000, Stok: 40},
-	{ID: 3, Nama: "kecap", Harga: 12000, Stok: 20},
+type CategoryResponse struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+type ProductResponse struct {
+	ID       string           `json:"id"`
+	Name     string           `json:"product_name"`
+	Price    int              `json:"price"`
+	Stock    int              `json:"stock"`
+	Category CategoryResponse `json:"category"`
 }

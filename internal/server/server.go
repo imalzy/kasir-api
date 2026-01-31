@@ -1,77 +1,31 @@
 package server
 
 import (
-	"encoding/json"
-	"kasir-api/internal/kategori"
 	"kasir-api/internal/produk"
 	"log"
 	"net/http"
+	"time"
 )
 
-func Start(addr string) {
-	// Produk routes
-	http.HandleFunc("/api/produk/", func(w http.ResponseWriter, r *http.Request) {
-		switch r.Method {
-		case http.MethodGet:
-			produk.GetProdukByID(w, r)
-		case http.MethodPut:
-			produk.UpdateProduk(w, r)
-		case http.MethodDelete:
-			produk.DeleteProduk(w, r)
-		default:
-			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-		}
-	})
+type Handlers struct {
+	Product *produk.ProductHandler
+	// Category *kategori.Category
+	// Order    *transaksi.OrderHandler
+}
 
-	http.HandleFunc("/api/produk", func(w http.ResponseWriter, r *http.Request) {
-		switch r.Method {
-		case http.MethodGet:
-			produk.ListProduk(w, r)
-		case http.MethodPost:
-			produk.CreateProduk(w, r)
-		default:
-			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-		}
-	})
+func Start(addr string, h Handlers) {
+	router := SetupRoutes(h)
 
-	http.HandleFunc("/api/kategori/", func(w http.ResponseWriter, r *http.Request) {
-		switch r.Method {
-		case http.MethodGet:
-			kategori.GetKategoriByID(w, r)
-		case http.MethodPut:
-			kategori.UpdateKategori(w, r)
-		case http.MethodDelete:
-			kategori.DeleteKategori(w, r)
-		default:
-			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-		}
-	})
+	srv := &http.Server{
+		Addr:         addr,
+		Handler:      router,
+		ReadTimeout:  5 * time.Second,
+		WriteTimeout: 10 * time.Second,
+		IdleTimeout:  15 * time.Second,
+	}
 
-	http.HandleFunc("/api/kategori", func(w http.ResponseWriter, r *http.Request) {
-		switch r.Method {
-		case http.MethodGet:
-			kategori.ListKategori(w, r)
-		case http.MethodPost:
-			kategori.CreateKategori(w, r)
-		default:
-			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-		}
-	})
-
-	// Health check
-	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/json")
-		if err := json.NewEncoder(w).Encode(map[string]string{
-			"status":  "ok",
-			"message": "API Running",
-		}); err != nil {
-			log.Printf("Failed to encode JSON: %v", err)
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-		}
-	})
-
-	log.Printf("Server running on %s", addr)
-	if err := http.ListenAndServe(addr, nil); err != nil {
-		log.Fatal("Failed to start server: ", err)
+	log.Printf("Starting server at %s", addr)
+	if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+		log.Fatalf("Could not listen on %s: %v", addr, err)
 	}
 }
