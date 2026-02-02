@@ -1,45 +1,29 @@
 package kategori
 
-import "errors"
-
-func List() []Kategori {
-	return KategoriList
+type CategoryService struct {
+	repo *CategoryRepository
 }
 
-func Create(newKategori Kategori) Kategori {
-	newKategori.ID = len(KategoriList) + 1
-	KategoriList = append(KategoriList, newKategori)
-	return newKategori
+func NewCategoryService(repo *CategoryRepository) *CategoryService {
+	return &CategoryService{repo: repo}
 }
 
-func Update(id int, updated Kategori) (*Kategori, error) {
-	for i := range KategoriList {
-		if KategoriList[i].ID == id {
-			updated.ID = id
-			KategoriList[i] = updated
-			return &updated, nil
-		}
-	}
-
-	return nil, errors.New("Kategori belum ada")
+func (s *CategoryService) GetAll() ([]Category, error) {
+	return s.repo.GetAll()
 }
 
-func Delete(id int) error {
-	for i, p := range KategoriList {
-		if p.ID == id {
-			KategoriList = append(KategoriList[:i], KategoriList[i+1:]...)
-			return nil
-		}
-	}
-	return errors.New("Kategori belum ada")
+func (s *CategoryService) Create(data *Category) (string, error) {
+	return s.repo.Create(data)
 }
 
-func GetByID(id int) (*Kategori, error) {
-	for _, p := range KategoriList {
-		if p.ID == id {
-			return &p, nil
-		}
-	}
+func (s *CategoryService) GetByID(id string) (*Category, error) {
+	return s.repo.GetByID(id)
+}
 
-	return nil, errors.New("Kategori belum ada")
+func (s *CategoryService) Update(id string, product *Category) error {
+	return s.repo.Update(id, product)
+}
+
+func (s *CategoryService) Delete(id string) error {
+	return s.repo.Delete(id)
 }
