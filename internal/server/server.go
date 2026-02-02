@@ -1,6 +1,7 @@
 package server
 
 import (
+	"kasir-api/internal/kategori"
 	"kasir-api/internal/produk"
 	"log"
 	"net/http"
@@ -8,8 +9,8 @@ import (
 )
 
 type Handlers struct {
-	Product *produk.ProductHandler
-	// Category *kategori.Category
+	Product  *produk.ProductHandler
+	Category *kategori.CategoryHandler
 	// Order    *transaksi.OrderHandler
 }
 

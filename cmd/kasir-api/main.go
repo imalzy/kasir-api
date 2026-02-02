@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"kasir-api/internal/kategori"
 	"kasir-api/internal/produk"
 	"kasir-api/internal/server"
 	"kasir-api/utils"
@@ -32,7 +33,12 @@ func initHandlers(db *sql.DB) server.Handlers {
 	pService := produk.NewProductService(pRepo)
 	pHandler := produk.NewProductHandler(pService)
 
+	cRepo := kategori.NewCategoryRepository(db)
+	cService := kategori.NewCategoryService(cRepo)
+	cHandler := kategori.NewProductHandler(cService)
+
 	return server.Handlers{
-		Product: pHandler,
+		Product:  pHandler,
+		Category: cHandler,
 	}
 }
