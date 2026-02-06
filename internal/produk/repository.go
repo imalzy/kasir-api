@@ -15,9 +15,16 @@ func NewProductRepository(db *sql.DB) *ProductRepository {
 	return &ProductRepository{db: db}
 }
 
-func (repo *ProductRepository) GetAll() ([]ProductResponse, error) {
+func (repo *ProductRepository) GetAll(name string) ([]ProductResponse, error) {
 	query := "SELECT p.id, p.name as product_name, p.price, p.stock, jsonb_build_object('id', c.id,'name', c.name) AS category FROM products p JOIN categories c ON c.id = p.category_id"
-	rows, err := repo.db.Query(query)
+
+	args := []interface{}{}
+	if name != "" {
+		query += " WHERE p.name ILIKE $1"
+		args = append(args, "%"+name+"%")
+	}
+
+	rows, err := repo.db.Query(query, args...)
 
 	if err != nil {
 		return nil, err

@@ -8,8 +8,8 @@ func NewProductService(repo *ProductRepository) *ProductService {
 	return &ProductService{repo: repo}
 }
 
-func (s *ProductService) GetAll() ([]ProductResponse, error) {
-	return s.repo.GetAll()
+func (s *ProductService) GetAll(name string) ([]ProductResponse, error) {
+	return s.repo.GetAll(name)
 }
 
 func (s *ProductService) Create(data *Product) (string, error) {
