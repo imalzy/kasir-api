@@ -5,6 +5,7 @@ import (
 	"kasir-api/internal/kategori"
 	"kasir-api/internal/produk"
 	"kasir-api/internal/server"
+	"kasir-api/internal/transaction"
 	"kasir-api/utils"
 	"log"
 )
@@ -37,8 +38,13 @@ func initHandlers(db *sql.DB) server.Handlers {
 	cService := kategori.NewCategoryService(cRepo)
 	cHandler := kategori.NewProductHandler(cService)
 
+	tRepo := transaction.NewTransactionRepository(db)
+	tService := transaction.NewTransactionService(tRepo)
+	tHandler := transaction.NewTransactionHandler(tService)
+
 	return server.Handlers{
-		Product:  pHandler,
-		Category: cHandler,
+		Product:     pHandler,
+		Category:    cHandler,
+		Transaction: tHandler,
 	}
 }

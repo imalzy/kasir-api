@@ -3,15 +3,16 @@ package server
 import (
 	"kasir-api/internal/kategori"
 	"kasir-api/internal/produk"
+	"kasir-api/internal/transaction"
 	"log"
 	"net/http"
 	"time"
 )
 
 type Handlers struct {
-	Product  *produk.ProductHandler
-	Category *kategori.CategoryHandler
-	// Order    *transaksi.OrderHandler
+	Product     *produk.ProductHandler
+	Category    *kategori.CategoryHandler
+	Transaction *transaction.TransactionHandler
 }
 
 func Start(addr string, h Handlers) {

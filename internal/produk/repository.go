@@ -31,7 +31,6 @@ func (repo *ProductRepository) GetAll(name string) ([]ProductResponse, error) {
 	}
 	defer rows.Close()
 
-	// Inisialisasi sebuah list dinamis
 	products := make([]ProductResponse, 0)
 
 	for rows.Next() {

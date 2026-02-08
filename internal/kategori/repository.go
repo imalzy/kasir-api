@@ -23,7 +23,6 @@ func (repo *CategoryRepository) GetAll() ([]Category, error) {
 	}
 	defer rows.Close()
 
-	// Inisialisasi sebuah list dinamis
 	categories := make([]Category, 0)
 
 	for rows.Next() {

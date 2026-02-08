@@ -19,5 +19,9 @@ func SetupRoutes(h Handlers) *http.ServeMux {
 		mux.HandleFunc("/api/category/", h.Category.HandleCategoryByID)
 	}
 
+	if h.Transaction != nil {
+		mux.HandleFunc("/api/checkout", h.Transaction.HandleCheckout)
+	}
+
 	return mux
 }
