@@ -3,6 +3,7 @@ package server
 import (
 	"kasir-api/internal/kategori"
 	"kasir-api/internal/produk"
+	"kasir-api/internal/report"
 	"kasir-api/internal/transaction"
 	"log"
 	"net/http"
@@ -13,6 +14,7 @@ type Handlers struct {
 	Product     *produk.ProductHandler
 	Category    *kategori.CategoryHandler
 	Transaction *transaction.TransactionHandler
+	Report      *report.ReportHandler
 }
 
 func Start(addr string, h Handlers) {

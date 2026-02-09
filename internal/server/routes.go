@@ -23,5 +23,9 @@ func SetupRoutes(h Handlers) *http.ServeMux {
 		mux.HandleFunc("/api/checkout", h.Transaction.HandleCheckout)
 	}
 
+	if h.Report != nil {
+		mux.HandleFunc("/api/report", h.Report.HandleReport)
+	}
+
 	return mux
 }
